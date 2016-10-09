@@ -1,7 +1,15 @@
 # docker-best-practices
 There are so much useful tips out there, how to use docker. This great tips are part of blog posts, talks or within a documentation. I tought it might be useful, to collect all this docker best pratices, which are distributed all over these resources.
 
+The idea to collect all in one place based on this [tweet](https://twitter.com/FuriKuri/status/777947836327534593).
+
 Feel free to add new best practices and create a PR.
+
+# Table of contents
+* [Docker image](#docker-image)
+* [Docker container](#docker-container)
+* [Docker security](#docker-security)
+* [Application running within docker](#application-running-within-docker)
 
 ## Docker image
 ### Minizing layer size
@@ -61,7 +69,7 @@ USER myapp
 
 For more detailed information see [Best practices for writing Dockerfiles](https://docs.docker.com/engine/userguide/eng-image/dockerfile_best-practices/#user).
 
-## Applications running within docker
+## Application running within docker
 ### Logging to stdout
 To handle logs in your service easily, write all your logs to `stdout`. This uniform process makes it easy for docker deamon to grab this stream.
 
