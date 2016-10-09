@@ -20,7 +20,7 @@ For more detailed information see [Container best practices](http://docs.project
 ### Minizing number of layers
 Try to recude the number of layers, which will be created in your Dockerfile. Most Dockerfile instructions will add a new layer on top of the current image and commit the results. 
 
-For more detailed information see [Best practices for writing Dockerfiles](For more detailed information see [Container best practices](http://docs.projectatomic.io/container-best-practices/#_clear_packaging_caches_and_temporary_package_downloads).).
+For more detailed information see [Best practices for writing Dockerfiles](https://docs.docker.com/engine/userguide/eng-image/dockerfile_best-practices/#minimize-the-number-of-layers).
 
 ### Tagging
 Use tags to reference specific versions of your image.
