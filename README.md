@@ -33,6 +33,14 @@ Use tags to reference specific versions of your image.
 
 For more detailed information see [The tag command](https://docs.docker.com/engine/reference/commandline/tag/).
 
+
+### Log Rotation
+
+Use `--log-opt` to allow log rotation if the containers you are creating are too verbose and are created too often thanks to a continuous deployment process. 
+
+For more detailed information see [The log driver options](https://docs.docker.com/engine/admin/logging/overview/#/json-file-options).
+
+
 ## Docker container
 ### One Container - One Responsibility - One process
 If a container only has one responsibility, which should in almost all cases one process, it makes it much eaiser to scale horizontally or reuse the container in general.
