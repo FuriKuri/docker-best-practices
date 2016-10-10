@@ -44,6 +44,11 @@ For more detailed information see [the log driver options](https://docs.docker.c
 
 
 ## Docker container
+### Containers should be disposable/ephemeral
+The creatation and startup time of a container should be as small as possible. In addition a container should shut down gracefully when the container receive a SIGTERM. This makes it easier to scale up or down. It also makes it easier to remove unhealthy containers and spwan new ones.
+
+For more detailed information see [The Tweleve-Factor App](https://12factor.net/disposability) and [Best practices for writing Dockerfiles](https://docs.docker.com/engine/userguide/eng-image/dockerfile_best-practices/#containers-should-be-ephemeral).
+
 ### One Container - One Responsibility - One process
 If a container only has one responsibility, which should in almost all cases one process, it makes it much eaiser to scale horizontally or reuse the container in general.
 
@@ -59,7 +64,6 @@ For more detailed information see [Manage data in containers](https://docs.docke
 Remove unnecessary layers in your registry.
 
 For more detailed information see [Garbage Collection](https://github.com/docker/distribution/blob/master/docs/garbage-collection.md).
-
 
 ## Docker security
 ### Security scanning
