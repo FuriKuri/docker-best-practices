@@ -38,7 +38,7 @@ For more detailed information see [The tag command](https://docs.docker.com/engi
 
 Use `--log-opt` to allow log rotation if the containers you are creating are too verbose and are created too often thanks to a continuous deployment process. 
 
-For more detailed information see [The log driver options](https://docs.docker.com/engine/admin/logging/overview/#/json-file-options).
+For more detailed information see [the log driver options](https://docs.docker.com/engine/admin/logging/overview/#/json-file-options).
 
 
 ## Docker container
