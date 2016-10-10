@@ -31,7 +31,17 @@ For more detailed information see [Best practices for writing Dockerfiles](https
 ### Tagging
 Use tags to reference specific versions of your image.
 
+Tags could be used to denote a specific Docker container image. Hence, the tagging strategy must include leveraging a unique counter like `build id` from a CI Server (eg: Jenkins) to help with identifying the right Image. 
+
 For more detailed information see [The tag command](https://docs.docker.com/engine/reference/commandline/tag/).
+
+
+### Log Rotation
+
+Use `--log-opt` to allow log rotation if the containers you are creating are too verbose and are created too often thanks to a continuous deployment process. 
+
+For more detailed information see [the log driver options](https://docs.docker.com/engine/admin/logging/overview/#/json-file-options).
+
 
 ## Docker container
 ### One Container - One Responsibility - One process
