@@ -66,6 +66,13 @@ Remove unnecessary layers in your registry.
 For more detailed information see [Garbage Collection](https://github.com/docker/distribution/blob/master/docs/garbage-collection.md).
 
 ## Docker security
+### Limit memory
+You should limit the memory resource of your container against DoS attacks or/and against applications with memory leaks. This protects your host system and other containers. You should use `-m` and `--memory-swap` to limit memory.
+
+```
+docker run -m 128m --memory-swap 128m ...
+```
+
 ### Security scanning
 Use a security scanner for your images for a static analysis of vulnerabilities.
 
