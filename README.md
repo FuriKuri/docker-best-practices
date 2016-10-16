@@ -1,7 +1,7 @@
 # docker-best-practices
 There are so much useful tips out there, how to use docker. This great tips are part of blog posts, talks or within a documentation. I tought it might be useful, to collect all this docker best pratices, which are distributed all over these resources.
 
-Feel free to add new best practices and create a PR.
+I would be very happy to receive some Pull Request to let the list grow.
 
 # Table of contents
 * [Docker image](#docker-image)
