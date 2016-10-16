@@ -66,6 +66,14 @@ Remove unnecessary layers in your registry.
 For more detailed information see [Garbage Collection](https://github.com/docker/distribution/blob/master/docs/garbage-collection.md).
 
 ## Docker security
+### Limit access to filesystem
+If not necessary start your container in a read-only mode with `--read-only`. You also should do the same with volumnes with adding `:ro`. This makes it harder for attackers to corrupt your container.
+
+```
+docker run --read-only
+docker run -v /my/data:/data:ro
+```
+
 ### Limit memory
 You should limit the memory resource of your container against DoS attacks or/and against applications with memory leaks. This protects your host system and other containers. You should use `-m` and `--memory-swap` to limit memory.
 
