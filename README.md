@@ -70,8 +70,8 @@ For more detailed information see [Garbage Collection](https://github.com/docker
 If not necessary start your container in a read-only mode with `--read-only`. You also should do the same with volumnes with adding `:ro`. This makes it harder for attackers to corrupt your container.
 
 ```
-docker run --read-only
-docker run -v /my/data:/data:ro
+docker run --read-only ...
+docker run -v /my/data:/data:ro ...
 ```
 
 ### Limit memory
