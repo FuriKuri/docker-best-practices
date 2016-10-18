@@ -49,6 +49,14 @@ The creatation and startup time of a container should be as small as possible. I
 
 For more detailed information see [The Tweleve-Factor App](https://12factor.net/disposability) and [Best practices for writing Dockerfiles](https://docs.docker.com/engine/userguide/eng-image/dockerfile_best-practices/#containers-should-be-ephemeral).
 
+### Containers should have its PID1 to be a Zombie reaper
+Container processes may not be responding to an inmmediate command of `docker stop`
+If our main proccess determinated by our CMD or execution in the `entrypoint` it is uncapable to manage Reaping, our `docker stop` won't work as no `SIGINT` would be able to reach the appropriate process. We should whenever posible use container images that are extend Reaping management.
+
+So, the question is does the process you exec in your entrypoint registering signal handlers? A good way to figure this out might be to check whether your process responds properly `docker stop` (or if it waits for 10 seconds before exiting). In this last case tools like [tini](https://github.com/krallin/tini) fix this problem.
+
+[Complete explanation by Krallin, creator of Tini](https://github.com/krallin/tini/issues/8)
+
 ### One Container - One Responsibility - One process
 If a container only has one responsibility, which should in almost all cases one process, it makes it much eaiser to scale horizontally or reuse the container in general.
 
