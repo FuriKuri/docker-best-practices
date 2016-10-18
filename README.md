@@ -45,17 +45,25 @@ For more detailed information see [the log driver options](https://docs.docker.c
 
 ## Docker container
 ### Containers should be disposable/ephemeral
-The creatation and startup time of a container should be as small as possible. In addition a container should shut down gracefully when the container receive a SIGTERM. This makes it easier to scale up or down. It also makes it easier to remove unhealthy containers and spwan new ones.
+The creation and startup time of a container should be as small as possible. In addition a container should shut down gracefully when the container receive a SIGTERM. This makes it easier to scale up or down. It also makes it easier to remove unhealthy containers and spawn new ones.
 
 For more detailed information see [The Tweleve-Factor App](https://12factor.net/disposability) and [Best practices for writing Dockerfiles](https://docs.docker.com/engine/userguide/eng-image/dockerfile_best-practices/#containers-should-be-ephemeral).
 
+### Containers should have its PID1 to be a Zombie reaper
+Container processes may not be responding to an inmmediate command of `docker stop`
+If our main proccess determinated by our CMD or execution in the `entrypoint` it is uncapable to manage Reaping, our `docker stop` won't work as no `SIGINT` would be able to reach the appropriate process. We should whenever posible use container images that are extend Reaping management.
+
+So, the question is does the process you exec in your entrypoint registering signal handlers? A good way to figure this out might be to check whether your process responds properly `docker stop` (or if it waits for 10 seconds before exiting). In this last case tools like [tini](https://github.com/krallin/tini) fix this problem.
+
+[Complete explanation by Krallin, creator of Tini](https://github.com/krallin/tini/issues/8)
+
 ### One Container - One Responsibility - One process
-If a container only has one responsibility, which should in almost all cases one process, it makes it much eaiser to scale horizontally or reuse the container in general.
+If a container only has one responsibility, which should in almost all cases one process, it makes it much easier to scale horizontally or reuse the container in general.
 
 [Best practices for writing Dockerfiles](https://docs.docker.com/engine/userguide/eng-image/dockerfile_best-practices/#run-only-one-process-per-container).
 
 ### Store share data in volumes.
-If you services need to share data, use shared volumnes. Please make sure that you services are designed for concurrency data access (read and write).
+If you services need to share data, use shared volumes. Please make sure that your services are designed for concurrency data access (read and write).
 
 For more detailed information see [Manage data in containers](https://docs.docker.com/engine/tutorials/dockervolumes/).
 
