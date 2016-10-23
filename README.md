@@ -78,23 +78,23 @@ For more detailed information see [Garbage Collection](https://github.com/docker
 Only open the ports, which are needed in prodution and containers should only be accessible by other containers that need them. So groups of containers should use their own network.
 
 ```
-docker network create --driver bridge isolated_nw
-docker run --network=isolated_nw --name=container busybox
+$ docker network create --driver bridge isolated_nw
+$ docker run --network=isolated_nw --name=container busybox
 ```
 
 ### Limit access to filesystem
 If not necessary start your container in a read-only mode with `--read-only`. You also should do the same with volumnes with adding `:ro`. This makes it harder for attackers to corrupt your container.
 
 ```
-docker run --read-only ...
-docker run -v /my/data:/data:ro ...
+$ docker run --read-only ...
+$ docker run -v /my/data:/data:ro ...
 ```
 
 ### Limit memory
 You should limit the memory resource of your container against DoS attacks or/and against applications with memory leaks. This protects your host system and other containers. You should use `-m` and `--memory-swap` to limit memory.
 
 ```
-docker run -m 128m --memory-swap 128m ...
+$ docker run -m 128m --memory-swap 128m ...
 ```
 
 ### Security scanning
