@@ -82,6 +82,25 @@ $ docker network create --driver bridge isolated_nw
 $ docker run --network=isolated_nw --name=container busybox
 ```
 
+### You can't trust anyone
+> This may seem like a harsh thing to say - but in a climate where even baby monitors and lightbulbs can be taken over to participate in DDOS attacks we need to get smart.
+
+#### Don't use an image unless it's official
+For ARM, there are no truly official images for now, but resin/rpi-raspbian is used by thousands of devices and curated by resin.io, you can use it as your base image.
+
+#### Don't run any binaries you that didn't compile yourself
+It's way better to compile our binary than relying on a tar.gz provided by someone you know nothing about on the internet.
+
+> Docker Security by Adrian Mouat coins the term poison image for an image tainted with malware.
+
+If you want to create a Docker image for software such as Prometheus.io, Node.js or Golang then head over to their download page and locate the official binary package - then add it into one of the base images we covered above.
+
+If no binary exists then take the time to rebuild from source and don't take any risks. Google the build instructions if you run into issues - they can often be found from a 5-minute search.
+
+Docker Captain Alex Ellis have provided a set of Dockerfiles for ARM on Github for common software such as Node.js, Python, Consul and Nginx: [alexellis/docker-arm](http:s//github.com/alexellis/docker-arm)
+
+For more detailed information see [5 things about Docker on Raspberry Pi](http://blog.alexellis.io/5-things-docker-rpi/) by Docker Captain Alex Ellis @alexellisuk
+
 ### Limit access to filesystem
 If not necessary start your container in a read-only mode with `--read-only`. You also should do the same with volumnes with adding `:ro`. This makes it harder for attackers to corrupt your container.
 
