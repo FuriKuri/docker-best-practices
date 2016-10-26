@@ -13,7 +13,7 @@ Please don't hesitate to submit a Pull Request to help the list grow!
 
 ## Docker images
 ### Minimizing layer size
-Some installations create data which is not needed. Try to remove data in the same layer:
+Some installations create data that isn't needed. Try to remove this unnecessary data within layers:
 
 ```
 RUN yum install -y epel-release && \
@@ -26,28 +26,27 @@ RUN yum install -y epel-release && \
 For more detailed information, see [container best practices](http://docs.projectatomic.io/container-best-practices/#_clear_packaging_caches_and_temporary_package_downloads).
 
 ### Minimizing number of layers
-Try to reduce the number of layers which will be created in your Dockerfile. Most Dockerfile instructions will add a new layer on top of the current image and commit the results. 
+Try to reduce the number of layers that will be created in your Dockerfile. Most Dockerfile instructions will add a new layer on top of the current image and commit the results. 
 
 For more detailed information see [Best practices for writing Dockerfiles](https://docs.docker.com/engine/userguide/eng-image/dockerfile_best-practices/#minimize-the-number-of-layers).
 
 ### Tagging
 Use tags to reference specific versions of your image.
 
-Tags could be used to denote a specific Docker container image. Hence, the tagging strategy must include a unique counter like `build id` from a CI server (e.g. Jenkins) to help with identifying the right Image. 
+Tags could be used to denote a specific Docker container image. Hence, the tagging strategy must include a unique counter like `build id` from a CI server (e.g. Jenkins) to help with identifying the right correct image. 
 
 For more detailed information see [The tag command](https://docs.docker.com/engine/reference/commandline/tag/).
 
 
 ### Log Rotation
-
-Use `--log-opt` to allow log rotation. This helps if the containers you are creating are too verbose and are created too often, thanks to a continuous deployment process. 
+Use `--log-opt` to allow log rotation. This helps if the containers you are creating are too verbose and are created too often due to a continuous deployment process.
 
 For more detailed information, see [the log driver options](https://docs.docker.com/engine/admin/logging/overview/#/json-file-options).
 
 
 ## Docker container
 ### Containers should be disposable/ephemeral
-The creation and startup time of a container should be as small as possible. Furthermore, a container should shut down gracefully when a `SIGTERM` is received. This makes it easier to scale up or down. It also makes it easier to remove unhealthy containers and spawn new ones.
+The creation and startup time of a container should be as small as possible. Furthermore, a container should shut down gracefully when a `SIGTERM` is received. This makes it easier to scale up or down. It also makes it easier to remove unhealthy containers and to spawn new ones.
 
 For more detailed information, see [The Tweleve-Factor App](https://12factor.net/disposability) and [best practices for writing Dockerfiles](https://docs.docker.com/engine/userguide/eng-image/dockerfile_best-practices/#containers-should-be-ephemeral).
 
@@ -58,13 +57,15 @@ So, the question is: does the process you execute in your entrypoint register si
 
 [Complete explanation by Krallin, creator of Tini](https://github.com/krallin/tini/issues/8)
 
-### One Container, One Responsibility, One Process
+### One container, One responsibility, One process
 If a container only has one responsibility (which should in almost all cases involve one process), it makes it much easier to scale horizontally or reuse the container in general.
 
 [Best practices for writing Dockerfiles](https://docs.docker.com/engine/userguide/eng-image/dockerfile_best-practices/#run-only-one-process-per-container).
 
 ### Store share data in volumes
-If your services need to share data, use shared volumes. Make sure that your services are designed for concurrent data access (read and write). For more detailed information see [Manage data in containers](https://docs.docker.com/engine/tutorials/dockervolumes/).
+If services need to share data, use shared volumes. Make sure that services are designed for concurrent data access (read and write).
+
+For more detailed information see [Manage data in containers](https://docs.docker.com/engine/tutorials/dockervolumes/).
 
 ## Docker registry
 ### Garbage collection
@@ -83,23 +84,23 @@ $ docker run --network=isolated_nw --name=container busybox
 > This may seem like a harsh thing to say, but in a climate where even baby monitors and light-bulbs can be taken over to participate in DDoS attacks, we need to get smart.
 
 #### Don't use an image unless it's official
-For ARM, there are no truly official images for now, but `resin/rpi-raspbian` is used by thousands of devices and curated by resin.io. You can use it as your base image.
+There are no official images for ARM at this time, but `resin/rpi-raspbian` is used by thousands of devices and curated by resin.io. You can use it as your base image.
 
 #### Don't run any binaries you that didn't compile yourself
-It's way better to compile binaries than rely on tar.gz files provided by someone you know nothing about.
+It's way better to compile your own binaries than relying on tar.gz files provided by someone you know nothing about.
 
 > Docker Security by Adrian Mouat coins the term "poison image" for an image tainted with malware.
 
-If you want to create a Docker image for software such as Prometheus.io, Node.js or Golang, head over to their download page and locate the official binary package – then add it into one of the base images we covered above.
+If you want to create a Docker image for software such as Prometheus.io, Node.js or Golang, head over to their download page and locate the official binary package, then add it into one of the base images we covered above.
 
-If no binary exists, take the time to rebuild from source and don't take any risks. Google search the build instructions if you run into issues – they can often be found quickly.
+If no binary exists, take the time to rebuild it from source and don't take any risks. Google search the build instructions if you run into issues; they can often be found quickly.
 
 Docker Captain Alex Ellis has provided a set of Dockerfiles for ARM on Github for common software such as Node.js, Python, Consul and Nginx: [alexellis/docker-arm](http:s//github.com/alexellis/docker-arm)
 
-For more detailed information see [5 things about Docker on Raspberry Pi](http://blog.alexellis.io/5-things-docker-rpi/) by Alex.
+For more detailed information see [5 things about Docker on Raspberry Pi](http://blog.alexellis.io/5-things-docker-rpi/) by Docker Captain Alex Ellis @alexellisuk.
 
 ### Limit access to filesystem
-Start your container in a read-only mode with `--read-only`. You also should do the same with volumes with adding `:ro`. This makes it harder for attackers to corrupt your container.
+Start your container in a read-only mode with `--read-only`. You should also do this with volumnes by adding `:ro`. This makes it harder for attackers to corrupt your container.
 
 ```
 $ docker run --read-only ...
@@ -119,7 +120,7 @@ Use a security scanner for your images; this comprises a static analysis of soft
 For more detailed information see [Docker Security Scanning](https://docs.docker.com/docker-cloud/builds/image-scan/) or [Clair](https://github.com/coreos/clair).
 
 ### Switch to non-root-user
-If your services do not need root privileges, **do not use root**! Consider the **Principle of Least Privilege** applied to Docker containers. Create a new user and switch the user with `USER`.
+If your service does not need root privileges, **do not use root**! Consider the **Principle of Least Privilege** applied to Docker containers. Create a new user and switch the user with `USER`.
 
 ```
 RUN groupadd -r myapp && useradd -r -g myapp myapp
