@@ -1,4 +1,4 @@
-# docker-best-practices
+# Docker Best Practices
 There are so much useful tips out there, how to use docker. This great tips are part of blog posts, talks or within a documentation. I tought it might be useful, to collect all this docker best pratices, which are distributed all over these resources.
 
 I would be very happy to receive some Pull Request to let the list grow.
