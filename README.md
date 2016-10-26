@@ -69,7 +69,7 @@ For more detailed information see [Manage data in containers](https://docs.docke
 
 ## Docker registry
 ### Garbage collection
-Remove unnecessary layers in your registry. For more detailed information see [Garbage Collection](https://github.com/docker/distribution/blob/master/docs/garbage-collection.md).
+Remove unnecessary layers in your registry. For more detailed information see [Garbage Collection](https://github.com/docker/docker.github.io/blob/master/registry/garbage-collection.md).
 
 ## Docker security
 ### Limit access from network
