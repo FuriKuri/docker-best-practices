@@ -12,7 +12,7 @@ Please don't hesitate to submit a Pull Request to help the list grow!
 * [Application running within docker](#application-running-within-docker)
 
 ## Docker images
-### Minizing layer size
+### Minimizing layer size
 Some installations create data which is not needed. Try to remove data in the same layer:
 
 ```
@@ -25,7 +25,7 @@ RUN yum install -y epel-release && \
 
 For more detailed information, see [container best practices](http://docs.projectatomic.io/container-best-practices/#_clear_packaging_caches_and_temporary_package_downloads).
 
-### Minizing number of layers
+### Minimizing number of layers
 Try to reduce the number of layers which will be created in your Dockerfile. Most Dockerfile instructions will add a new layer on top of the current image and commit the results. 
 
 For more detailed information see [Best practices for writing Dockerfiles](https://docs.docker.com/engine/userguide/eng-image/dockerfile_best-practices/#minimize-the-number-of-layers).
@@ -80,7 +80,7 @@ $ docker run --network=isolated_nw --name=container busybox
 ```
 
 ### You can't trust anyone
-> This may seem like a harsh thing to say, but in a climate where even baby monitors and lightbulbs can be taken over to participate in DDoS attacks, we need to get smart.
+> This may seem like a harsh thing to say, but in a climate where even baby monitors and light-bulbs can be taken over to participate in DDoS attacks, we need to get smart.
 
 #### Don't use an image unless it's official
 For ARM, there are no truly official images for now, but `resin/rpi-raspbian` is used by thousands of devices and curated by resin.io. You can use it as your base image.
@@ -118,7 +118,7 @@ Use a security scanner for your images; this comprises a static analysis of soft
 
 For more detailed information see [Docker Security Scanning](https://docs.docker.com/docker-cloud/builds/image-scan/) or [Clair](https://github.com/coreos/clair).
 
-### Swtich to non-root-user
+### Switch to non-root-user
 If your services do not need root privileges, **do not use root**! Consider the **Principle of Least Privilege** applied to Docker containers. Create a new user and switch the user with `USER`.
 
 ```
