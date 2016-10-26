@@ -1,16 +1,18 @@
-# docker-best-practices
+# Docker Best Practices
+![Docker logo](https://upload.wikimedia.org/wikipedia/commons/7/79/Docker_(container_engine)_logo.png)
+
 There are so much useful tips out there, how to use docker. This great tips are part of blog posts, talks or within a documentation. I tought it might be useful, to collect all this docker best pratices, which are distributed all over these resources.
 
 I would be very happy to receive some Pull Request to let the list grow.
 
-# Table of contents
+## Table of contents
 * [Docker image](#docker-image)
 * [Docker container](#docker-container)
 * [Docker security](#docker-security)
 * [Application running within docker](#application-running-within-docker)
 
 ## Docker image
-### Minizing layer size
+#### Minizing layer size
 Some installations create data, which are not be needed. Try to remove this data in the same layer.
 
 ```
@@ -23,12 +25,12 @@ RUN yum install -y epel-release && \
 
 For more detailed information see [Container best practices](http://docs.projectatomic.io/container-best-practices/#_clear_packaging_caches_and_temporary_package_downloads).
 
-### Minizing number of layers
+#### Minizing number of layers
 Try to recude the number of layers, which will be created in your Dockerfile. Most Dockerfile instructions will add a new layer on top of the current image and commit the results. 
 
 For more detailed information see [Best practices for writing Dockerfiles](https://docs.docker.com/engine/userguide/eng-image/dockerfile_best-practices/#minimize-the-number-of-layers).
 
-### Tagging
+#### Tagging
 Use tags to reference specific versions of your image.
 
 Tags could be used to denote a specific Docker container image. Hence, the tagging strategy must include leveraging a unique counter like `build id` from a CI Server (eg: Jenkins) to help with identifying the right Image. 
@@ -36,7 +38,7 @@ Tags could be used to denote a specific Docker container image. Hence, the taggi
 For more detailed information see [The tag command](https://docs.docker.com/engine/reference/commandline/tag/).
 
 
-### Log Rotation
+#### Log Rotation
 
 Use `--log-opt` to allow log rotation if the containers you are creating are too verbose and are created too often thanks to a continuous deployment process. 
 
@@ -44,12 +46,12 @@ For more detailed information see [the log driver options](https://docs.docker.c
 
 
 ## Docker container
-### Containers should be disposable/ephemeral
+#### Containers should be disposable/ephemeral
 The creation and startup time of a container should be as small as possible. In addition a container should shut down gracefully when the container receive a SIGTERM. This makes it easier to scale up or down. It also makes it easier to remove unhealthy containers and spawn new ones.
 
 For more detailed information see [The Tweleve-Factor App](https://12factor.net/disposability) and [Best practices for writing Dockerfiles](https://docs.docker.com/engine/userguide/eng-image/dockerfile_best-practices/#containers-should-be-ephemeral).
 
-### Containers should have its PID1 to be a Zombie reaper
+#### Containers should have its PID1 to be a Zombie reaper
 Container processes may not be responding to an inmmediate command of `docker stop`
 If our main proccess determinated by our CMD or execution in the `entrypoint` it is uncapable to manage Reaping, our `docker stop` won't work as no `SIGINT` would be able to reach the appropriate process. We should whenever posible use container images that are extend Reaping management.
 
@@ -57,24 +59,24 @@ So, the question is does the process you exec in your entrypoint registering sig
 
 [Complete explanation by Krallin, creator of Tini](https://github.com/krallin/tini/issues/8)
 
-### One Container - One Responsibility - One process
+#### One Container - One Responsibility - One process
 If a container only has one responsibility, which should in almost all cases one process, it makes it much easier to scale horizontally or reuse the container in general.
 
 [Best practices for writing Dockerfiles](https://docs.docker.com/engine/userguide/eng-image/dockerfile_best-practices/#run-only-one-process-per-container).
 
-### Store share data in volumes.
+#### Store share data in volumes.
 If you services need to share data, use shared volumes. Please make sure that your services are designed for concurrency data access (read and write).
 
 For more detailed information see [Manage data in containers](https://docs.docker.com/engine/tutorials/dockervolumes/).
 
 ## Docker registry
-### Garbage collection
+#### Garbage collection
 Remove unnecessary layers in your registry.
 
 For more detailed information see [Garbage Collection](https://github.com/docker/distribution/blob/master/docs/garbage-collection.md).
 
 ## Docker security
-### Limit access from network
+#### Limit access from network
 Only open the ports, which are needed in prodution and containers should only be accessible by other containers that need them. So groups of containers should use their own network.
 
 ```
