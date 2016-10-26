@@ -121,7 +121,7 @@ Use a security scanner for your images for a static analysis of vulnerabilities.
 
 For more detailed information see [Docker Security Scanning](https://docs.docker.com/docker-cloud/builds/image-scan/) or [Clair](https://github.com/coreos/clair).
 
-### Swtich to non-root-user
+### Switch to non-root-user
 If your service do not need root privileges, then do not run it with it. Create a new user and switch the user with `USER`.
 
 ```
