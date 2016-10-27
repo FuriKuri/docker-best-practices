@@ -1,4 +1,5 @@
 # Docker Best Practices
+![Docker logo](https://www.spindox.it/it/wp-content/uploads/sites/2/2016/09/docker.png)
 
 There are so much useful tips out there, how to use docker. This great tips are part of blog posts, talks or within a documentation. I tought it might be useful, to collect all this docker best pratices, which are distributed all over these resources.
 
