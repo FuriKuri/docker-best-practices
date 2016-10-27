@@ -1,5 +1,5 @@
-# Docker Best Practices
 ![Docker logo](https://upload.wikimedia.org/wikipedia/commons/7/79/Docker_(container_engine)_logo.png)
+# Docker Best Practices
 
 There are hundreds of useful tips around on how to use Docker. Unfortunately, the most useful bits of information are often buried in blog posts, talks or within long-winded documentation. I thought it might be useful to collect all these Docker tips and consolidate them in one place.
 
