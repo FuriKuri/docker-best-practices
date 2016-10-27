@@ -26,14 +26,14 @@ RUN yum install -y epel-release && \
 For more detailed information, see [container best practices](http://docs.projectatomic.io/container-best-practices/#_clear_packaging_caches_and_temporary_package_downloads).
 
 ### Minimizing number of layers
-Try to reduce the number of layers that will be created in your Dockerfile. Most Dockerfile instructions will add a new layer on top of the current image and commit the results. 
+Try to reduce the number of layers that will be created in your Dockerfile. Most Dockerfile instructions will add a new layer on top of the current image and commit the results.
 
 For more detailed information see [Best practices for writing Dockerfiles](https://docs.docker.com/engine/userguide/eng-image/dockerfile_best-practices/#minimize-the-number-of-layers).
 
 ### Tagging
 Use tags to reference specific versions of your image.
 
-Tags could be used to denote a specific Docker container image. Hence, the tagging strategy must include a unique counter like `build id` from a CI server (e.g. Jenkins) to help with identifying the right correct image. 
+Tags could be used to denote a specific Docker container image. Hence, the tagging strategy must include a unique counter like `build id` from a CI server (e.g. Jenkins) to help with identifying the correct image.
 
 For more detailed information see [The tag command](https://docs.docker.com/engine/reference/commandline/tag/).
 
@@ -48,10 +48,10 @@ For more detailed information, see [the log driver options](https://docs.docker.
 ### Containers should be disposable/ephemeral
 The creation and startup time of a container should be as small as possible. Furthermore, a container should shut down gracefully when a `SIGTERM` is received. This makes it easier to scale up or down. It also makes it easier to remove unhealthy containers and to spawn new ones.
 
-For more detailed information, see [The Tweleve-Factor App](https://12factor.net/disposability) and [best practices for writing Dockerfiles](https://docs.docker.com/engine/userguide/eng-image/dockerfile_best-practices/#containers-should-be-ephemeral).
+For more detailed information, see [The Twelve-Factor App](https://12factor.net/disposability) and [best practices for writing Dockerfiles](https://docs.docker.com/engine/userguide/eng-image/dockerfile_best-practices/#containers-should-be-ephemeral).
 
 ### Containers should have its PID1 to be a Zombie reaper
-Container processes may not respond to an immediate command of `docker stop`. If our main process is determined by our command or execution to be in the `entrypoint` and is uncapable to manage Reaping, our `docker stop` won't work. This is because no `SIGINT` would be able to reach the appropriate process. We should, whenever possible, use container images that extend Reaping management.
+Container processes may not respond to an immediate command of `docker stop`. If our main process is determined by our command or execution to be in the `entrypoint` and is unable to manage Reaping, our `docker stop` won't work. This is because no `SIGINT` would be able to reach the appropriate process. We should, whenever possible, use container images that extend Reaping management.
 
 So, the question is: does the process you execute in your entrypoint register signal handlers? A good way to figure this out might be to check whether your process responds properly to `docker stop` (or if it waits for ten seconds before exiting). In this case, tools like [tini](https://github.com/krallin/tini) can help fix this problem.
 
@@ -95,12 +95,12 @@ If you want to create a Docker image for software such as Prometheus.io, Node.js
 
 If no binary exists, take the time to rebuild it from source and don't take any risks. Google search the build instructions if you run into issues; they can often be found quickly.
 
-Docker Captain Alex Ellis has provided a set of Dockerfiles for ARM on Github for common software such as Node.js, Python, Consul and Nginx: [alexellis/docker-arm](http:s//github.com/alexellis/docker-arm)
+Docker Captain Alex Ellis has provided a set of Dockerfiles for ARM on Github for common software such as Node.js, Python, Consul and Nginx: [alexellis/docker-arm](https://github.com/alexellis/docker-arm)
 
 For more detailed information see [5 things about Docker on Raspberry Pi](http://blog.alexellis.io/5-things-docker-rpi/) by Docker Captain Alex Ellis @alexellisuk.
 
 ### Limit access to filesystem
-Start your container in a read-only mode with `--read-only`. You should also do this with volumnes by adding `:ro`. This makes it harder for attackers to corrupt your container.
+Start your container in a read-only mode with `--read-only`. You should also do this with volumes by adding `:ro`. This makes it harder for attackers to corrupt your container.
 
 ```
 $ docker run --read-only ...
@@ -133,4 +133,4 @@ For more detailed information see [Best practices for writing Dockerfiles](https
 ### Logging to stdout
 To handle logs in your service easily, write all your logs to `stdout`. This uniform process makes it easy for the docker daemon to grab this stream.
 
-For more detailed information see [The Tweleve-Factor App](https://12factor.net/logs) and [Configure logging drivers](https://docs.docker.com/engine/admin/logging/overview/).
+For more detailed information see [The Twelve-Factor App](https://12factor.net/logs) and [Configure logging drivers](https://docs.docker.com/engine/admin/logging/overview/).
