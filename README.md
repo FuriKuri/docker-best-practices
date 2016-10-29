@@ -142,6 +142,14 @@ USER myapp
 
 For more detailed information see [Best practices for writing Dockerfiles](https://docs.docker.com/engine/userguide/eng-image/dockerfile_best-practices/#user).
 
+### Drop unused capabilities
+Linux allows you to fine-tune the permissions of the application inside the container. By default, process are privileged and have the following capabilities: `chown`,` dac_override`,` fowner`,` fsetid`,` kill`,` setgid`,` setuid`,` setpcap`,` net_bind_service`,` net_raw`,` sys_chroot`,` mknod`,` audit_write`,` setfcap` (see `man capabilities`). Unused capabilities can be dropped the following way:
+
+```
+#  docker run -d --cap-drop=all --cap-add=setuid --cap-add=setgid <image>
+```
+For more detailed informations see [Secure Your Containers (rhelblog)](http://rhelblog.redhat.com/2016/10/17/secure-your-containers-with-this-one-weird-trick/).
+
 ## Application running within docker
 ### Logging to stdout
 To handle logs in your service easily, write all your logs to `stdout`. This uniform process makes it easy for the docker daemon to grab this stream.
