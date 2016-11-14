@@ -150,6 +150,14 @@ Linux allows you to fine-tune the permissions of the application inside the cont
 ```
 For more detailed informations see [Secure Your Containers (rhelblog)](http://rhelblog.redhat.com/2016/10/17/secure-your-containers-with-this-one-weird-trick/).
 
+### Passing credentials and secrets
+Most applications have to handle with secrets and credentials. The most common way to pass secrets and credentials is to specitfy them as environment variables at container runtime. But if you do this, keep the following downside in mind:
+* If you commit the container the image will contains the secrets
+* With `docker inspect` the environment variables can be read out
+* Although squashing removes intermediate layers from the final image, secrets from those layers will still be present in the build cache
+
+For more detailed information, see [container best practices](http://docs.projectatomic.io/container-best-practices/#_passing_credentials_and_secrets).
+
 ## Application running within docker
 ### Logging to stdout
 To handle logs in your service easily, write all your logs to `stdout`. This uniform process makes it easy for the docker daemon to grab this stream.
