@@ -99,7 +99,7 @@ $ docker run --network=isolated_nw --name=container busybox
 #### Don't use an image unless it's official
 There are no official images for ARM at this time, but `resin/rpi-raspbian` is used by thousands of devices and curated by resin.io. You can use it as your base image.
 
-#### Don't run any binaries you that didn't compile yourself
+#### Don't run any binaries that you didn't compile yourself
 It's way better to compile your own binaries than relying on tar.gz files provided by someone you know nothing about.
 
 > Docker Security by Adrian Mouat coins the term "poison image" for an image tainted with malware.
