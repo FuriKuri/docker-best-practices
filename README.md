@@ -28,7 +28,8 @@ or in one `RUN` block:
 
 ```
 RUN curl <file_download_url> -O <copy_directory> \
-&& unzip <copy_directory>/<filename>.zip -d <copy_directory> && rm <copy_directory>/<filename>.zip
+&& unzip <copy_directory>/<filename>.zip -d <copy_directory> \
+&& rm <copy_directory>/<filename>.zip
 ```
 
 The first method will create three layers and will also contain the unwanted <filename>.zip in the image which will increase the image size as well. However, the second method only creates a single layer and is thus preferred as the optimum method, as long as minimizing the number of layers is the highest priority. It has the drawback, however, that changes to any one of the instructions will cause all instructions to execute again -- something the `docker build` cache mechanism will avoid. Choose the strategy that works best for your situation.
