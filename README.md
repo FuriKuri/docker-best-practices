@@ -12,6 +12,28 @@ Please don't hesitate to submit a Pull Request to help the list grow!
 * [Application running within docker](#application-running-within-docker)
 
 ## Docker images
+
+### Minimizing number of layers
+Try to reduce the number of layers that will be created in your Dockerfile. Most Dockerfile instructions will add a new layer on top of the current image and commit the results.
+
+#### Example : 
+Suppose you need to get a zip file and extract it and remove the zip file. There are two possible ways to do this. 
+```
+COPY <filename>.zip <copy_directory>
+RUN unzip <filename>.zip
+RUN rm <filename>.zip
+```
+
+or in one `RUN` block:
+
+```
+RUN curl <file_download_url> -O <copy_directory> \
+&& unzip <copy_directory>/<filename>.zip -d <copy_directory> && rm <copy_directory>/<filename>.zip
+```
+
+The first method will create three layers and will also contain the unwanted <filename>.zip in the image which will increase the image size as well. However, the second method only creates a single layer and is thus preferred as the optimum method.
+
+For more detailed information see [Best practices for writing Dockerfiles](https://docs.docker.com/engine/userguide/eng-image/dockerfile_best-practices/#minimize-the-number-of-layers).
 ### Minimizing layer size
 Some installations create data that isn't needed. Try to remove this unnecessary data within layers:
 
@@ -25,23 +47,6 @@ RUN yum install -y epel-release && \
 
 For more detailed information, see [container best practices](http://docs.projectatomic.io/container-best-practices/#_clear_packaging_caches_and_temporary_package_downloads).
 
-### Minimizing number of layers
-Try to reduce the number of layers that will be created in your Dockerfile. Most Dockerfile instructions will add a new layer on top of the current image and commit the results.
-
-#### Example : 
-Suppose you need to get a zip file and extract it and remove the zip file. There are two possible ways to do this. 
-```
-COPY <filename>.zip <copy_directory>
-RUN unzip <filename>.zip
-RUN rm <filename>.zip
-```
-```
-RUN curl <file_download_url> -O <copy_directory> \
-&& unzip <copy_directory>/<filename>.zip -d <copy_directory> && rm <copy_directory>/<filename>.zip
-```
-The first method will create three layers and will also contain the unwanted <filename>.zip in the image which will increase the image size as well. However, the second method only creates a single layer and is thus preferred as the optimum method.
-
-For more detailed information see [Best practices for writing Dockerfiles](https://docs.docker.com/engine/userguide/eng-image/dockerfile_best-practices/#minimize-the-number-of-layers).
 
 ### Tagging
 Use tags to reference specific versions of your image.
