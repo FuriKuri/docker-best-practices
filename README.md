@@ -66,6 +66,16 @@ RUN yum install -y epel-release && \
 For more detailed information, see [container best practices](http://docs.projectatomic.io/container-best-practices/#_clear_packaging_caches_and_temporary_package_downloads).
 
 
+### RUN-only environment variables
+
+If one needs an environment variable set during a `RUN` block, but it is either unnecessary, or potentially disruptive to downstream images, then one can set the variable in the `RUN` block instead of using `ENV` to declare it globally in the image:
+
+```
+RUN export DEBIAN_FRONTEND=noninteractive ;\
+    apt-get update ;\
+    echo and so forth
+```
+
 ### Tagging
 Use tags to reference specific versions of your image.
 
