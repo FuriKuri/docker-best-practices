@@ -66,6 +66,19 @@ RUN yum install -y epel-release && \
 For more detailed information, see [container best practices](http://docs.projectatomic.io/container-best-practices/#_clear_packaging_caches_and_temporary_package_downloads).
 
 
+### Build variables
+
+When the structure of your `Dockerfile` is mostly or entirely the same across different versions of a tool or even your own software, then the use of [build-time arguments](https://docs.docker.com/engine/reference/builder/#arg) are a good way of rapidly producing multiple images without having to do a "copy, edit, build" cycle with the `Dockerfile`:
+
+```
+ARG my_version=1.2.3
+ARG my_sha256=cafebabedeadbeef...
+RUN set -e ;\
+    curl -o thing-${my_version} https://example.com/thing/${my_version}/thing-${my_version}.tar.gz ;\
+    printf '%s  %s' "${my_sha256}" "thing-${my_version}" | shasum -a 256 -c ;\
+    echo everything checks out
+```
+
 ### RUN-only environment variables
 
 If one needs an environment variable set during a `RUN` block, but it is either unnecessary, or potentially disruptive to downstream images, then one can set the variable in the `RUN` block instead of using `ENV` to declare it globally in the image:
