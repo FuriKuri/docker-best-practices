@@ -35,6 +35,23 @@ RUN curl <file_download_url> -O <copy_directory> \
 The first method will create three layers and will also contain the unwanted <filename>.zip in the image which will increase the image size as well. However, the second method only creates a single layer and is thus preferred as the optimum method, as long as minimizing the number of layers is the highest priority. It has the drawback, however, that changes to any one of the instructions will cause all instructions to execute again -- something the `docker build` cache mechanism will avoid. Choose the strategy that works best for your situation.
 
 For more detailed information see [Best practices for writing Dockerfiles](https://docs.docker.com/engine/userguide/eng-image/dockerfile_best-practices/#minimize-the-number-of-layers).
+
+However, sometimes executing all commands in one `RUN` block can make the script more opaque, especially when trying to mix and match `&&` and `||` statements. An alterative syntax is to use line continuation as you normally would, but explicitly switch on the shell's "exit on error" mode.
+```
+RUN set -e ;\
+    echo 'successful!' ;\
+    echo 'but the next line will exit: ' ;\
+    false ;\
+    causing this line not to run
+# now you can use traditional shell flow of control without worry:
+RUN set -e ;\
+    echo 'next line will take evasive action' ;\
+    if false; then \
+      echo 'it seems that was false' >&2 ;\
+    fi ;\
+    echo 'and the script continues'
+```
+
 ### Minimizing layer size
 Some installations create data that isn't needed. Try to remove this unnecessary data within layers:
 
