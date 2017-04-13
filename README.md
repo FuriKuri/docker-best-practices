@@ -12,6 +12,46 @@ Please don't hesitate to submit a Pull Request to help the list grow!
 * [Application running within docker](#application-running-within-docker)
 
 ## Docker images
+
+### Minimizing number of layers
+Try to reduce the number of layers that will be created in your Dockerfile. Most Dockerfile instructions will add a new layer on top of the current image and commit the results.
+
+#### Example : 
+Suppose you need to get a zip file and extract it and remove the zip file. There are two possible ways to do this. 
+```
+COPY <filename>.zip <copy_directory>
+RUN unzip <filename>.zip
+RUN rm <filename>.zip
+```
+
+or in one `RUN` block:
+
+```
+RUN curl <file_download_url> -O <copy_directory> \
+&& unzip <copy_directory>/<filename>.zip -d <copy_directory> \
+&& rm <copy_directory>/<filename>.zip
+```
+
+The first method will create three layers and will also contain the unwanted <filename>.zip in the image which will increase the image size as well. However, the second method only creates a single layer and is thus preferred as the optimum method, as long as minimizing the number of layers is the highest priority. It has the drawback, however, that changes to any one of the instructions will cause all instructions to execute again -- something the `docker build` cache mechanism will avoid. Choose the strategy that works best for your situation.
+
+For more detailed information see [Best practices for writing Dockerfiles](https://docs.docker.com/engine/userguide/eng-image/dockerfile_best-practices/#minimize-the-number-of-layers).
+
+However, sometimes executing all commands in one `RUN` block can make the script more opaque, especially when trying to mix and match `&&` and `||` statements. An alterative syntax is to use line continuation as you normally would, but explicitly switch on the shell's "exit on error" mode.
+```
+RUN set -e ;\
+    echo 'successful!' ;\
+    echo 'but the next line will exit: ' ;\
+    false ;\
+    causing this line not to run
+# now you can use traditional shell flow of control without worry:
+RUN set -e ;\
+    echo 'next line will take evasive action' ;\
+    if false; then \
+      echo 'it seems that was false' >&2 ;\
+    fi ;\
+    echo 'and the script continues'
+```
+
 ### Minimizing layer size
 Some installations create data that isn't needed. Try to remove this unnecessary data within layers:
 
@@ -25,23 +65,29 @@ RUN yum install -y epel-release && \
 
 For more detailed information, see [container best practices](http://docs.projectatomic.io/container-best-practices/#_clear_packaging_caches_and_temporary_package_downloads).
 
-### Minimizing number of layers
-Try to reduce the number of layers that will be created in your Dockerfile. Most Dockerfile instructions will add a new layer on top of the current image and commit the results.
 
-#### Example : 
-Suppose you need to get a zip file and extract it and remove the zip file. There are two possible ways to do this. 
-```
-COPY <filename>.zip <copy_directory>
-RUN unzip <filename>.zip
-RUN rm <filename>.zip
-```
-```
-RUN curl <file_download_url> -O <copy_directory> \
-&& unzip <copy_directory>/<filename>.zip -d <copy_directory> && rm <copy_directory>/<filename>.zip
-```
-The first method will create three layers and will also contain the unwanted <filename>.zip in the image which will increase the image size as well. However, the second method only creates a single layer and is thus preferred as the optimum method.
+### Build variables
 
-For more detailed information see [Best practices for writing Dockerfiles](https://docs.docker.com/engine/userguide/eng-image/dockerfile_best-practices/#minimize-the-number-of-layers).
+When the structure of your `Dockerfile` is mostly or entirely the same across different versions of a tool or even your own software, then the use of [build-time arguments](https://docs.docker.com/engine/reference/builder/#arg) are a good way of rapidly producing multiple images without having to do a "copy, edit, build" cycle with the `Dockerfile`:
+
+```
+ARG my_version=1.2.3
+ARG my_sha256=cafebabedeadbeef...
+RUN set -e ;\
+    curl -o thing-${my_version} https://example.com/thing/${my_version}/thing-${my_version}.tar.gz ;\
+    printf '%s  %s' "${my_sha256}" "thing-${my_version}" | shasum -a 256 -c ;\
+    echo everything checks out
+```
+
+### RUN-only environment variables
+
+If one needs an environment variable set during a `RUN` block, but it is either unnecessary, or potentially disruptive to downstream images, then one can set the variable in the `RUN` block instead of using `ENV` to declare it globally in the image:
+
+```
+RUN export DEBIAN_FRONTEND=noninteractive ;\
+    apt-get update ;\
+    echo and so forth
+```
 
 ### Tagging
 Use tags to reference specific versions of your image.
